@@ -4,7 +4,8 @@ Using this package, you can simply tag, untag or retag any existing model in you
 
 Here's a quick example of what you can do in your models to enable tagging:
 
-*This package supports Laravel 10*
+- *This package supports Laravel 10*
+- *Minimum PHP v8.1 supported*
 
 ```
 namespace App\Models;
