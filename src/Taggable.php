@@ -8,10 +8,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Usamamuneerchaudhary\LaravelTagify\Models\Tag;
 use Usamamuneerchaudhary\LaravelTagify\Scopes\TaggableScopes;
+use Usamamuneerchaudhary\LaravelTagify\Scopes\TagUsedScopes;
 
 trait Taggable
 {
-    use TaggableScopes;
+    use TaggableScopes, TagUsedScopes;
     
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
