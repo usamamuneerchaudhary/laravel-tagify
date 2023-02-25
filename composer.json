@@ -1,10 +1,21 @@
 {
     "name": "usamamuneerchaudhary/laravel-tagify",
     "description": "An Eloquent Tagging package for Laravel 10",
+    "keywords": [
+        "usamamuneerchaudhary",
+        "laravel-tagging",
+        "taggables",
+        "tagify",
+        "tagging",
+        "laravel"
+    ],
+    "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Usama Muneer",
-            "email": "usama@rentable.pk"
+            "email": "hello@usamamuneer.me",
+            "role": "Developer"
         }
     ],
     "autoload": {
