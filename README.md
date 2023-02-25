@@ -1,4 +1,4 @@
-[![image](https://www.linkpicture.com/q/tagify.png)](https://www.linkpicture.com/view.php?img=LPic63f95691d58321472352071)
+[![image](https://www.linkpicture.com/q/tagify.png)](https://thewebtier.com)
 ### Tagify is a simple Tagging Package for Laravel
 Using this package, you can simply tag, untag or retag any existing model in your laravel app.
 
