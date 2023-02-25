@@ -27,5 +27,8 @@
             "tests/stubs/LessonStub.php",
             "tests/stubs/TagStub.php"
         ]
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }
