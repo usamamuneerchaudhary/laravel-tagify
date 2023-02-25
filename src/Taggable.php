@@ -22,11 +22,19 @@ trait Taggable
         return $this->morphToMany(Tag::class, 'taggable');
     }
     
+    /**
+     * @param $tags
+     * @return void
+     */
     public function tag($tags)
     {
         $this->addTags($this->getWorkableTags($tags));
     }
     
+    /**
+     * @param $tags
+     * @return void
+     */
     public function untag($tags = null)
     {
         if ($tags === null) {
@@ -36,17 +44,28 @@ trait Taggable
         $this->removeTags($this->getWorkableTags($tags));
     }
     
+    /**
+     * @param $tags
+     * @return void
+     */
     public function retag($tags)
     {
         $this->removeAllTags();
         $this->tag($tags);
     }
     
+    /**
+     * @return void
+     */
     private function removeAllTags()
     {
         $this->removeTags($this->tags);
     }
     
+    /**
+     * @param  Collection  $tags
+     * @return void
+     */
     private function removeTags(Collection $tags)
     {
         $this->tags()->detach($tags);
@@ -55,6 +74,10 @@ trait Taggable
         }
     }
     
+    /**
+     * @param  Collection  $tags
+     * @return void
+     */
     private function addTags(Collection $tags)
     {
         $sync = $this->tags()->syncWithoutDetaching($tags->pluck('id')->toArray());
@@ -81,11 +104,19 @@ trait Taggable
         return $this->filterTagsCollection($tags);
     }
     
+    /**
+     * @param  array  $tags
+     * @return mixed
+     */
     private function getTagsModel(array $tags)
     {
         return Tag::whereIn('slug', $this->normalizeTagNames($tags))->get();
     }
     
+    /**
+     * @param  Collection  $tags
+     * @return Collection
+     */
     private function filterTagsCollection(Collection $tags)
     {
         return $tags->filter(function ($tag) {
@@ -93,6 +124,10 @@ trait Taggable
         });
     }
     
+    /**
+     * @param  array  $tags
+     * @return array|string[]
+     */
     private function normalizeTagNames(array $tags)
     {
         return array_map(function ($tag) {
