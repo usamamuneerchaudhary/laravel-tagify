@@ -1,0 +1,10 @@
+parameters:
+    level: 5
+    paths:
+        - src
+    excludePaths:
+        # The AI layer calls into laravel/ai, which is an optional dependency
+        # and therefore absent during static analysis.
+        - src/Ai/TagSuggester.php
+    ignoreErrors:
+        - identifier: missingType.iterableValue
