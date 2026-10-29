@@ -1,30 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Usamamuneerchaudhary\LaravelTagify\TagifyServiceProvider;
 
-abstract class TestCase extends \Orchestra\Testbench\TestCase
+abstract class TestCase extends Orchestra\Testbench\TestCase
 {
     protected function getPackageProviders($app)
     {
         return [TagifyServiceProvider::class];
     }
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         Model::unguard();
 
         $this->artisan('migrate', [
             '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/../migrations')
+            '--realpath' => realpath(__DIR__.'/../migrations'),
         ]);
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         Schema::drop('lessons');
+
+        parent::tearDown();
     }
 
     protected function getEnvironmentSetUp($app)
@@ -33,7 +38,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('database.connections.testbench', [
             'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix' => ''
+            'prefix' => '',
         ]);
 
         Schema::create('lessons', function ($table) {
@@ -47,8 +52,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         return TagStub::create([
             'name' => $name,
-            'slug' => \Illuminate\Support\Str::slug($name),
-            'count' => $count
+            'slug' => Str::slug($name),
+            'count' => $count,
         ]);
     }
 }
