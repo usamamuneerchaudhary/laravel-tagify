@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Eloquent\Model;
 use Usamamuneerchaudhary\LaravelTagify\Taggable;
 
@@ -10,5 +12,4 @@ class LessonStub extends Model
     protected $connection = 'testbench';
 
     public $table = 'lessons';
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Usamamuneerchaudhary\LaravelTagify\Scopes\TagUsedScopes;
@@ -11,5 +13,4 @@ class TagStub extends Model
     protected $connection = 'testbench';
 
     public $table = 'tags';
-
 }
