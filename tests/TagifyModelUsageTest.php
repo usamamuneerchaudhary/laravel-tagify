@@ -1,31 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Test;
 
 class TagifyModelUsageTest extends TestCase
 {
-
     protected $lesson;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $tags = ['PHP', 'Laravel', 'Livewire', 'Vue JS', 'Redis', 'MySQL', 'React JS'];
         foreach ($tags as $tag) {
-            \TagStub::create([
+            TagStub::create([
                 'name' => $tag,
                 'slug' => Str::slug($tag),
-                'count' => 0
+                'count' => 0,
             ]);
         }
-        $this->lesson = \LessonStub::create([
-            'title' => 'Lesson Title'
+        $this->lesson = LessonStub::create([
+            'title' => 'Lesson Title',
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_tag_lesson()
     {
         $this->lesson->tag(TagStub::where('slug', 'laravel')->first());
@@ -35,9 +35,7 @@ class TagifyModelUsageTest extends TestCase
         $this->assertContains('Laravel', $this->lesson->tags->pluck('name'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_tag_lesson_with_collection_of_tags()
     {
         $tags = TagStub::whereIn('slug', ['laravel', 'php'])->get();
@@ -50,9 +48,7 @@ class TagifyModelUsageTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_untag_lesson_tags()
     {
         $tags = TagStub::whereIn('slug', ['laravel', 'php', 'livewire'])->get();
@@ -66,9 +62,7 @@ class TagifyModelUsageTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_untag_all_lesson_tags()
     {
         $tags = TagStub::whereIn('slug', ['laravel', 'php', 'livewire'])->get();
@@ -82,9 +76,7 @@ class TagifyModelUsageTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_retag_lesson_tags()
     {
 
@@ -100,7 +92,8 @@ class TagifyModelUsageTest extends TestCase
             $this->assertContains($tag, $this->lesson->tags->pluck('name'));
         }
     }
-    /** @test */
+
+    #[Test]
     public function non_models_are_filtered_when_using_collections()
     {
         $tags = TagStub::whereIn('slug', ['laravel', 'php', 'mysql'])->get();
@@ -110,7 +103,7 @@ class TagifyModelUsageTest extends TestCase
 
     }
 
-    /** @test */
+    #[Test]
     public function non_existing_tags_are_ignored_on_tagging()
     {
         $tags = TagStub::whereIn('slug', ['laravel', 'python', 'postgreSQL', 'livewire'])->get();
@@ -127,6 +120,4 @@ class TagifyModelUsageTest extends TestCase
             $this->assertNotContains($tag, $this->lesson->tags->pluck('name'));
         }
     }
-
-
 }

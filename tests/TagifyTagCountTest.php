@@ -1,23 +1,22 @@
 <?php
 
-use Illuminate\Support\Str;
+declare(strict_types=1);
+
+use PHPUnit\Framework\Attributes\Test;
 
 class TagifyTagCountTest extends TestCase
 {
-
     protected $lesson;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->lesson = \LessonStub::create([
-            'title' => 'Lesson Title'
+        $this->lesson = LessonStub::create([
+            'title' => 'Lesson Title',
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tag_count_is_incremented_when_tagged()
     {
         $tag = $this->createTag('Laravel', 0);
@@ -28,9 +27,7 @@ class TagifyTagCountTest extends TestCase
         $this->assertContains('Laravel', $this->lesson->tags->pluck('name'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tag_count_is_decremented_when_untagged()
     {
         $tag = $this->createTag('Laravel', 50);
@@ -42,9 +39,7 @@ class TagifyTagCountTest extends TestCase
         $this->assertNotContains('Laravel', $this->lesson->tags->pluck('name'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tag_count_does_not_dip_below_zero()
     {
         $tag = $this->createTag('Laravel', 0);
@@ -56,9 +51,7 @@ class TagifyTagCountTest extends TestCase
         $this->assertNotContains('Laravel', $this->lesson->tags->pluck('name'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tag_count_does_not_increment_if_already_exists()
     {
         $tag = $this->createTag('Laravel', 0);
@@ -72,5 +65,4 @@ class TagifyTagCountTest extends TestCase
 
         $this->assertContains('Laravel', $this->lesson->tags->pluck('name'));
     }
-
 }

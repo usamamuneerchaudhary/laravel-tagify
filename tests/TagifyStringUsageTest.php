@@ -1,31 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Test;
 
 class TagifyStringUsageTest extends TestCase
 {
-
     protected $lesson;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $tags = ['PHP', 'Laravel', 'Livewire', 'Vue JS', 'Redis', 'MySQL', 'React JS'];
         foreach ($tags as $tag) {
-            \TagStub::create([
+            TagStub::create([
                 'name' => $tag,
                 'slug' => Str::slug($tag),
-                'count' => 0
+                'count' => 0,
             ]);
         }
-        $this->lesson = \LessonStub::create([
-            'title' => 'Lesson Title'
+        $this->lesson = LessonStub::create([
+            'title' => 'Lesson Title',
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_tag_lesson()
     {
         $this->lesson->tag(['laravel', 'php']);
@@ -37,9 +37,7 @@ class TagifyStringUsageTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_untag_lesson()
     {
         $this->lesson->tag(['laravel', 'php']);
@@ -51,9 +49,7 @@ class TagifyStringUsageTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_untag_all_lesson_tags()
     {
         $this->lesson->tag(['laravel', 'php', 'MySQL']);
@@ -65,9 +61,7 @@ class TagifyStringUsageTest extends TestCase
         $this->assertEquals(0, $this->lesson->tags->count());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_retag_lesson_tags()
     {
         $this->lesson->tag(['laravel', 'php', 'MySQL']);
@@ -81,7 +75,7 @@ class TagifyStringUsageTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function non_existing_tags_are_ignored_on_tagging()
     {
         $this->lesson->tag(['laravel', 'python', 'PostgreSQL', 'Livewire']);
@@ -96,13 +90,25 @@ class TagifyStringUsageTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function inconsistent_tag_cases_are_normalized()
     {
         $this->lesson->tag(['laravel', 'Vue JS', 'React JS']);
         $this->assertCount(3, $this->lesson->tags);
 
         foreach (['Laravel', 'Vue JS', 'React JS'] as $tag) {
+            $this->assertContains($tag, $this->lesson->tags->pluck('name'));
+        }
+    }
+
+    #[Test]
+    public function blank_tag_names_are_ignored_on_tagging()
+    {
+        $this->lesson->tag(['Laravel', '', '   ', 'php']);
+
+        $this->assertCount(2, $this->lesson->tags);
+
+        foreach (['Laravel', 'PHP'] as $tag) {
             $this->assertContains($tag, $this->lesson->tags->pluck('name'));
         }
     }
