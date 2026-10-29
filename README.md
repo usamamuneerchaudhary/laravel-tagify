@@ -1,11 +1,9 @@
 [![image](https://www.linkpicture.com/q/tagify.png)](https://thewebtier.com)
 ### Tagify is a simple Tagging Package for Laravel
-Using this package, you can simply tag, untag or retag any existing model in your laravel app.
+Using this package, you can tag, untag, or retag any Eloquent model, and listen for attach and detach events.
 
-Here's a quick example of what you can do in your models to enable tagging:
-
-- *This package supports Laravel 10*
-- *Minimum PHP v8.1 supported*
+- Laravel 11, 12, and 13
+- PHP 8.3+
 
 ```
 namespace App\Models;
@@ -23,29 +21,25 @@ class Lesson extends Model
 You can install the package via composer:
 
 `composer require usamamuneerchaudhary/laravel-tagify`
+
+The service provider is discovered automatically.
+
 ## Run Migrations
 
-Once the package is installed, you can run migrations,
+Once the package is installed, you can run migrations:
 
 `php artisan migrate`
- 
-## Service Provider
 
-Don't forget to add the ServiceProvider in `app.php`:
-
-```
-Usamamuneerchaudhary\LaravelTagify\TagifyServiceProvider::class,
-```
 ## Usage & Some basic functions
 
 Add Tags to a Model
 ```
-$tags =['Laravel','PHP'];
+$tags = ['Laravel', 'PHP'];
 $model->tag($tags);
 ```
 Untag a tag
 ```
-$model->untag(['Laravel]);
+$model->untag(['Laravel']);
 ```
 
 Untag all tags
@@ -55,7 +49,7 @@ $model->untag();
 
 Re-tag a tag to a model
 ```
-$model->retag(['Eloquent','mysql']);
+$model->retag(['Eloquent', 'mysql']);
 ```
 
 Get all tags
@@ -63,13 +57,34 @@ Get all tags
 $model->tags;
 ```
 
-You can also use scopes to get tags associated likeso,
+You can also use scopes to get models associated with tags:
 ```
-App\Model\Lesson::withAllTags(['laravel','php']); //will return if has all tags
-App\Model\Lesson::withAnyTags(['laravel','php','python']); //will only return the ones associated, and ignore the 
-ones which are not.
-App\Model\Lesson::hasTags(['laravel','php']); //check if a model has tags
+App\Models\Lesson::withAllTags(['Laravel', 'php']); // models that have every given tag
+App\Models\Lesson::withAnyTag(['Laravel', 'php', 'python']); // models that have at least one of the given tags
+App\Models\Lesson::hasTags(['Laravel', 'php']); // models that have at least one of the given tags
 ```
+
+Tag names are normalized to slugs before they are stored or queried, so `Laravel` and `laravel` refer to the same tag.
+
+### Events
+
+`TagAttached` and `TagDetached` are dispatched after tags are actually attached or detached, and only after the surrounding database transaction commits:
+
+```
+use Usamamuneerchaudhary\LaravelTagify\Events\TagAttached;
+use Usamamuneerchaudhary\LaravelTagify\Events\TagDetached;
+
+Event::listen(TagAttached::class, function (TagAttached $event) {
+    $event->taggable;
+    $event->tags;
+});
+
+Event::listen(TagDetached::class, function (TagDetached $event) {
+    $event->taggable;
+    $event->tags;
+});
+```
+
 ## Tests
 `composer test`
 
