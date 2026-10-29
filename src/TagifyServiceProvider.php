@@ -1,19 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Usamamuneerchaudhary\LaravelTagify;
 
 use Illuminate\Support\ServiceProvider;
 
 class TagifyServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
-    public function register(): void
-    {
-        //
-    }
-
     /**
      * Bootstrap services.
      */
