@@ -1,4 +1,7 @@
-[![image](https://www.linkpicture.com/q/tagify.png)](https://thewebtier.com)
+## Laravel Tagify
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/usamamuneerchaudhary/laravel-tagify?style=flat-square)](https://packagist.org/packages/usamamuneerchaudhary/laravel-tagify)
+[![Total Downloads](https://img.shields.io/packagist/dt/usamamuneerchaudhary/laravel-tagify?style=flat-square)](https://packagist.org/packages/usamamuneerchaudhary/laravel-tagify)
+[![Licence](https://img.shields.io/packagist/l/usamamuneerchaudhary/filament-notifier?style=flat-square)](https://github.com/usamamuneerchaudhary/filament-notifier/blob/HEAD/LICENSE.md)
 ### Tagify is a simple Tagging Package for Laravel
 Using this package, you can tag, untag, or retag any Eloquent model, and listen for attach and detach events.
 
