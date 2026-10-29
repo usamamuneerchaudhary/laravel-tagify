@@ -1,7 +1,7 @@
 {
     "name": "usamamuneerchaudhary/laravel-tagify",
-    "description": "Tagging for Laravel with aliases, merging, hierarchy, trending, tenant scoping and AI-assisted suggestions.",
-    "keywords": ["laravel", "tags", "tagging", "taggable", "eloquent", "taxonomy"],
+    "description": "Attach, detach, and query tags on Eloquent models using a polymorphic relationship.",
+    "keywords": ["laravel", "tags", "tagging", "taggable", "eloquent"],
     "homepage": "https://github.com/usamamuneerchaudhary/laravel-tagify",
     "license": "MIT",
     "authors": [
@@ -19,15 +19,15 @@
         "illuminate/support": "^11.0|^12.0|^13.0"
     },
     "require-dev": {
+        "larastan/larastan": "^3.0",
         "laravel/pint": "^1.18",
         "orchestra/testbench": "^9.0|^10.0|^11.0",
         "pestphp/pest": "^3.0|^4.0",
         "pestphp/pest-plugin-laravel": "^3.0|^4.0",
-        "phpstan/phpstan": "^2.0"
+        "phpstan/phpstan": "^2.0",
+        "usamamuneerchaudhary/laravel-slipway": "^1.8"
     },
     "suggest": {
-        "laravel/ai": "Required for AI-assisted tag suggestions and semantic duplicate detection (^1.0).",
-        "laravel/scout": "Required to index a model's tags alongside its searchable data.",
         "ext-intl": "Improves transliteration quality when normalizing non-Latin tag names."
     },
     "autoload": {
@@ -36,15 +36,20 @@
         }
     },
     "autoload-dev": {
-        "psr-4": {
-            "Usamamuneerchaudhary\\LaravelTagify\\Tests\\": "tests/"
-        }
+        "classmap": [
+            "tests/"
+        ]
     },
     "scripts": {
+        "post-autoload-dump": [
+            "@php vendor/bin/testbench package:discover --ansi"
+        ],
         "test": "vendor/bin/pest",
         "test:coverage": "vendor/bin/pest --coverage",
         "lint": "vendor/bin/pint",
-        "analyse": "vendor/bin/phpstan analyse"
+        "analyse": "vendor/bin/phpstan analyse",
+        "slipway:compile": "vendor/bin/testbench slipway:compile",
+        "slipway:check": "vendor/bin/testbench slipway:check"
     },
     "config": {
         "sort-packages": true,
@@ -56,10 +61,7 @@
         "laravel": {
             "providers": [
                 "Usamamuneerchaudhary\\LaravelTagify\\TagifyServiceProvider"
-            ],
-            "aliases": {
-                "Tagify": "Usamamuneerchaudhary\\LaravelTagify\\Facades\\Tagify"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",
